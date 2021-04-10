@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 //@Controller
+@RequestMapping("/api")
 public class CoinController {
     
     private static final Logger log = LoggerFactory.getLogger(CoinController.class);
@@ -52,12 +53,12 @@ public class CoinController {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private List<Coin> pairCache; 
     
-    @GetMapping("/candles")
+    @RequestMapping("/candles")
     public List<Candle> getCandles(){
         return candleService.getCandles();
     }
     
-    @GetMapping("/coins")
+    @RequestMapping("/coins")
     public List getSymbolPrice(Model model){
         
         //model.addAttribute("coins",finalList);
