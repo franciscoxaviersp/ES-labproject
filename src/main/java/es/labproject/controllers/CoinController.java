@@ -50,7 +50,7 @@ public class CoinController {
     @Autowired private CoinRepository coinRep;
     @Autowired private CandleRepository candleRep;
     private final ObjectMapper objectMapper = new ObjectMapper();
-    
+    private List<Coin> pairCache; 
     
     @GetMapping("/candles")
     public List<Candle> getCandles(){
@@ -58,7 +58,33 @@ public class CoinController {
     }
     
     @GetMapping("/coins")
-    public String getSymbolPrice(Model model){
+    public List getSymbolPrice(Model model){
+        
+        //model.addAttribute("coins",finalList);
+        //return "coin";
+        return pairCache;
+    }
+    
+    @Scheduled(fixedRate=60000)
+    public void updateCandles(){
+        try{
+            List<Candle> candles = getAPICandles();
+            
+            for(Candle candle: candles){
+                List<Candle> toRemove = candleRep.findByopenTime(candle.getOpenTime());
+                candleRep.deleteAll(toRemove);
+                candleRep.saveAndFlush(candle);
+            }
+            
+            log.info("Updated repository/database with Binance API info");
+        }catch(Exception e){
+            log.error("ERROR! Error updating repository/database with Binance API info");
+            log.warn("No changes to database");
+        }
+    }
+    
+    @Scheduled(fixedRate = 60000)
+    public void updatePairs(){
         log.info("Retrieving coin pair info from Binance API");
         String res = "";
         try{
@@ -70,14 +96,15 @@ public class CoinController {
 
             
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-                StringBuffer response = new StringBuffer();
-                String readLine;
-                while ((readLine = in.readLine()) != null) {
-                    response.append(readLine);
-                } 
-                in.close();
+                StringBuilder response;
+                try (BufferedReader in = new BufferedReader(
+                        new InputStreamReader(con.getInputStream()))) {
+                    response = new StringBuilder();
+                    String readLine;
+                    while ((readLine = in.readLine()) != null) {
+                        response.append(readLine);
+                    }
+                }
                 // print result
                 res = response.toString();
                 //GetAndPost.POSTRequest(response.toString());
@@ -109,27 +136,8 @@ public class CoinController {
             }
         }
         Collections.sort(finalList);
-        model.addAttribute("coins",finalList);
-        return "coin";
         
-    }
-    
-    @Scheduled(fixedRate=60000)
-    public void updateCandles(){
-        try{
-            List<Candle> candles = getAPICandles();
-            
-            for(Candle candle: candles){
-                List<Candle> toRemove = candleRep.findByopenTime(candle.getOpenTime());
-                candleRep.deleteAll(toRemove);
-                candleRep.saveAndFlush(candle);
-            }
-            
-            log.info("Updated repository/database with Binance API info");
-        }catch(Exception e){
-            log.error("ERROR! Error updating repository/database with Binance API info");
-            log.warn("No changes to database");
-        }
+        pairCache = finalList;
     }
     
     public List getAPICandles(){
@@ -145,14 +153,15 @@ public class CoinController {
 
             
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-                StringBuffer response = new StringBuffer();
-                String readLine;
-                while ((readLine = in.readLine()) != null) {
-                    response.append(readLine);
-                } 
-                in.close();
+                StringBuilder response;
+                try (BufferedReader in = new BufferedReader(
+                        new InputStreamReader(con.getInputStream()))) {
+                    response = new StringBuilder();
+                    String readLine;
+                    while ((readLine = in.readLine()) != null) {
+                        response.append(readLine);
+                    }
+                }
                 // print result
                 res = response.toString();
                 //GetAndPost.POSTRequest(response.toString());
@@ -168,7 +177,7 @@ public class CoinController {
         String[] items = res.substring(1,res.length()-1).replaceAll("\\[", "").split("\\]");
         List<Candle> candleList = new ArrayList<>();
         for(int i=0;i<items.length;i++ ){
-            String temp ="";
+            String temp;
             if (i!=0) temp = items[i].substring(1);
             else temp = items[i];
             String[] items2 = temp.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\\s", "").split(",");
@@ -177,21 +186,6 @@ public class CoinController {
             Candle c = new Candle(openTime,Double.parseDouble(items2[1].replaceAll("\"","")),Double.parseDouble(items2[2].replaceAll("\"","")),Double.parseDouble(items2[3].replaceAll("\"","")),Double.parseDouble(items2[4].replaceAll("\"","")),Double.parseDouble(items2[5].replaceAll("\"","")),closeTime,Double.parseDouble(items2[7].replaceAll("\"","")),Integer.parseInt(items2[8]),Double.parseDouble(items2[9].replaceAll("\"","")),Double.parseDouble(items2[10].replaceAll("\"","")),Double.parseDouble(items2[11].replaceAll("\"","")));
             candleList.add(c);
         }
-        //candleRep.saveAll(candleList);
         return candleList;
-    }
-    /*
-    @GetMapping("/candle")
-    public List<Candlestick> getSymbolCandle(@RequestParam(name="symbol",required=true) String symbol){
-        List<Candlestick> candlesticks = client.getCandlestickBars("NEOETH", CandlestickInterval.ONE_MINUTE);
-        return candlesticks;
-    }*/
-    
-    @GetMapping("/hello")
-    public String hello(Model model){
-        
-        model.addAttribute("message","Hello world");
-        
-        return "coins";
     }
 }
