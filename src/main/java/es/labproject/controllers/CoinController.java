@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -65,6 +66,10 @@ public class CoinController {
         //return "coin";
         return pairCache;
     }
+    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+        public List<String> hello(){
+            return List.of("Hello","world","ola");
+        }
     
     @Scheduled(fixedRate=60000)
     public void updateCandles(){

@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### React compiled Files ###
+src/main/resources/static/*
+src/main/resources/templates/*
