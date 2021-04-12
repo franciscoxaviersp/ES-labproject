@@ -25,7 +25,7 @@ import {
     CardTitle,
     Table,
     Row,
-    Col, Button,
+    Col, Button, DropdownToggle, DropdownMenu, DropdownItem, ButtonDropdown,
 } from "reactstrap";
 
 class Tables extends React.Component {
@@ -33,15 +33,40 @@ class Tables extends React.Component {
     super(props);
 
     this.timer = null
-
+    this.toggleDrop1 = this.toggleDrop1.bind(this);
+    this.changeValueDrop1 = this.changeValueDrop1.bind(this);
 
     this.state = {
       table_data : [],
       table_buttons:[],
       curent_page:1,
       num_to_show:15,
+      dropDown1Value: "Name",
+      dropdownIndex:"between",
+      dropdownIndex2:"Today",
+      dropdownIndex3:"Descending",
+      dropDown1Open: false,
 
     }
+  }
+  sortData(result){
+      console.log(this.state.table_data)
+          console.log(this.state.dropDown1Value)
+      if (this.state.dropDown1Value == "Name")
+              result.sort(function(a, b) {
+                  if (a.symbol< b.symbol)
+                    return -1;
+                  if (a.symbol > b.symbol)
+                    return 1;
+                  // names must be equal
+                  return 0;
+                });
+      if (this.state.dropDown1Value == "Price"){
+              result.sort(function(a, b) {return a.lastPrice - b.lastPrice });
+      }
+      if (this.state.dropDown1Value == "Variation"){
+              result.sort(function(a, b) {return a.priceChangePercent - b.priceChangePercent });
+      }
   }
 
   getData = async (id) => {
@@ -51,6 +76,10 @@ class Tables extends React.Component {
           );
 
           const result = await response.json();
+          console.log(result)
+          this.sortData(result)
+
+
           this.setState(
               prevState => (
                   {
@@ -58,7 +87,7 @@ class Tables extends React.Component {
                   }
               )
           );
-          console.log(result)
+
 
       }
     catch(e){
@@ -71,13 +100,26 @@ class Tables extends React.Component {
          );
      }
   }
+
+  /* DropDown functions */
+  toggleDrop1() {
+    this.setState({dropDown1Open: !this.state.dropDown1Open});
+  }
+   changeValueDrop1(e,id) {
+      const a = ["","between","cars","people","injured","severity","status"]
+      this.state.dropDown1Value= e.currentTarget.textContent
+      this.state.dropdownIndex= `${a[id]}`
+      this.getData(this.state.curent_page)
+  }
+
   renderArray = (value,index) => {
     return(
       <tr>
-        <td className="text-center">{value["symbol"]}</td>
-        <td className="text-center">{value["priceChange"]}$</td>
+        {/*<td className="text-center">/!*<img src={"https://cryptoicons.org/api/icon/"+ value["symbol"].split("EUR")[0].toLowerCase()+"/200"} alt="icon"/>*!/ {value["symbol"]}</td>*/}
+        <td className="text-center">{value["symbol"].split("EUR")[0]}</td>
+        <td className="text-center">{value["lastPrice"]}€</td>
+          <td className="text-center">{value["priceChange"]}€</td>
         <td className="text-center">{value["priceChangePercent"]}%</td>
-        <td className="text-center">{value["lastPrice"]}$</td>
       </tr>
 
     )
@@ -142,17 +184,36 @@ class Tables extends React.Component {
               <Col md="12">
                 <Card>
                   <CardHeader>
-                    <CardTitle tag="h4">Coins Table</CardTitle>
+                    <Row >
+                      <Col><CardTitle tag="h3">Coins Table</CardTitle></Col>
+                      <Col>
                       {this.renderButtons()}
+                      </Col>
+                    <Col>
+                       <div className="row justify-content-end" style={{ paddingRight: 20}}>
+                           <h4 className="mr-2 mt-2 text-white text-center">Sort by: </h4>
+                      <ButtonDropdown isOpen={this.state.dropDown1Open} toggle={this.toggleDrop1}>
+                      <DropdownToggle caret>
+                        {this.state.dropDown1Value}
+                      </DropdownToggle>
+                      <DropdownMenu right>
+                        <DropdownItem onClick={(e)=>this.changeValueDrop1(e,1)}>Name</DropdownItem>
+                        <DropdownItem onClick={(e)=>this.changeValueDrop1(e,2)}>Price</DropdownItem>
+                        <DropdownItem onClick={(e)=>this.changeValueDrop1(e,3)}>Variation</DropdownItem>
+                      </DropdownMenu>
+                    </ButtonDropdown>
+                           </div>
+                  </Col>
+                 </Row>
                   </CardHeader>
                   <CardBody>
                     <Table className="tablesorter" >
                       <thead className="text-primary">
                       <tr>
-                        <th className="text-center">Names</th>
+                        <th className="text-center">Name</th>
+                        <th className="text-center">price</th>
                         <th className="text-center">Price Change(24h)</th>
                         <th className="text-center">Variation(24h)</th>
-                        <th className="text-center">price</th>
                       </tr>
                       </thead>
                         <tbody>
@@ -163,70 +224,6 @@ class Tables extends React.Component {
                   </CardBody>
                 </Card>
               </Col>
-              {/*<Col md="12">*/}
-              {/*  <Card className="card-plain">*/}
-              {/*    <CardHeader>*/}
-              {/*      <CardTitle tag="h4">Table on Plain Background</CardTitle>*/}
-              {/*      <p className="category">Here is a subtitle for this table</p>*/}
-              {/*    </CardHeader>*/}
-              {/*    <CardBody>*/}
-              {/*      <Table className="tablesorter" responsive>*/}
-              {/*        <thead className="text-primary">*/}
-              {/*          <tr>*/}
-              {/*            <th>Name</th>*/}
-              {/*            <th>Country</th>*/}
-              {/*            <th>City</th>*/}
-              {/*            <th className="text-center">Salary</th>*/}
-              {/*          </tr>*/}
-              {/*        </thead>*/}
-              {/*        <tbody>*/}
-              {/*          <tr>*/}
-              {/*            <td>Dakota Rice</td>*/}
-              {/*            <td>Niger</td>*/}
-              {/*            <td>Oud-Turnhout</td>*/}
-              {/*            <td className="text-center">$36,738</td>*/}
-              {/*          </tr>*/}
-              {/*          <tr>*/}
-              {/*            <td>Minerva Hooper</td>*/}
-              {/*            <td>Curaçao</td>*/}
-              {/*            <td>Sinaai-Waas</td>*/}
-              {/*            <td className="text-center">$23,789</td>*/}
-              {/*          </tr>*/}
-              {/*          <tr>*/}
-              {/*            <td>Sage Rodriguez</td>*/}
-              {/*            <td>Netherlands</td>*/}
-              {/*            <td>Baileux</td>*/}
-              {/*            <td className="text-center">$56,142</td>*/}
-              {/*          </tr>*/}
-              {/*          <tr>*/}
-              {/*            <td>Philip Chaney</td>*/}
-              {/*            <td>Korea, South</td>*/}
-              {/*            <td>Overland Park</td>*/}
-              {/*            <td className="text-center">$38,735</td>*/}
-              {/*          </tr>*/}
-              {/*          <tr>*/}
-              {/*            <td>Doris Greene</td>*/}
-              {/*            <td>Malawi</td>*/}
-              {/*            <td>Feldkirchen in Kärnten</td>*/}
-              {/*            <td className="text-center">$63,542</td>*/}
-              {/*          </tr>*/}
-              {/*          <tr>*/}
-              {/*            <td>Mason Porter</td>*/}
-              {/*            <td>Chile</td>*/}
-              {/*            <td>Gloucester</td>*/}
-              {/*            <td className="text-center">$78,615</td>*/}
-              {/*          </tr>*/}
-              {/*          <tr>*/}
-              {/*            <td>Jon Porter</td>*/}
-              {/*            <td>Portugal</td>*/}
-              {/*            <td>Gloucester</td>*/}
-              {/*            <td className="text-center">$98,615</td>*/}
-              {/*          </tr>*/}
-              {/*        </tbody>*/}
-              {/*      </Table>*/}
-              {/*    </CardBody>*/}
-              {/*  </Card>*/}
-              {/*</Col>*/}
             </Row>
           </div>
         </>

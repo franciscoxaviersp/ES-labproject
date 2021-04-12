@@ -137,7 +137,7 @@ public class CoinController {
         for(int i=0; i<coinList.size(); i++){
             Coin temp = coinList.get(i);
             
-            if (temp.getSymbol().endsWith("USDT")){
+            if (temp.getSymbol().endsWith("EUR")){
                 finalList.add(temp);
             }
         }
