@@ -65,7 +65,23 @@ services:
     networks:
       app_subnet:
         ipv4_address: 10.10.1.5
-
+  react:
+    container_name: react
+    build:
+      context: react
+      dockerfile: dockerfile
+    volumes:
+      - './react:/app'
+      - '/app/node_modules'
+    ports:
+      - 3001:3000
+    depends_on:
+      - app
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      app_subnet:
+        ipv4_address: 10.10.1.6
 networks:
   app_subnet:
       
