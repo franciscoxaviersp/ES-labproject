@@ -26,18 +26,18 @@ public class LoggerController {
     @Autowired
     private KafkaCons consumer;
 
-//    @GetMapping("/logs")
-//    public List logging() {
-//        logger.info("Consuming logging messages");
-//
-//        return consumer.getLogs();
-//    }
-//
-//    @GetMapping("/data")
-//    public List data() {
-//        logger.info("Consuming data messages");
-//
-//        return consumer.getData();
-//    }
+    @GetMapping("/logs")
+    public List logging() {
+        logger.info("Consuming logging messages");
+
+        return consumer.getLogs();
+    }
+
+    @GetMapping("/data")
+    public List data() {
+        logger.info("Consuming data messages");
+
+        return consumer.getData();
+    }
 
 }
