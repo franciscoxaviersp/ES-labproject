@@ -18,20 +18,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaProd {
     
-    private static final String TOPIC = "test_topic";
     @Autowired
     private KafkaTemplate<String,String> kafkaTemplate;
 
-    public void sendMessage(String message){
-
-        this.kafkaTemplate.send(TOPIC,message);
+    public void send(String topic,String message){
+        logger.info(String.format("#### -> Producing message -> %s", message));    
+        this.kafkaTemplate.send(topic,message);
     }
 
-    @Bean
-    public NewTopic createTopic(){
-
-        return new NewTopic(TOPIC,3,(short) 1);
-    }
+//    @Bean
+//    public NewTopic createTopic(){
+//
+//        return new NewTopic(TOPIC,1,(short) 1);
+//    }
 
 
 }

@@ -21,8 +21,9 @@ public class KafkaController {
     @PostMapping("/publish")
     public void messageToTopic(@RequestParam("message") String message){
 
-        this.producer.sendMessage(message);
+        this.producer.send("data",message);
+        this.producer.send("logs","Added: "message);
 
-
+        return "Published message: "+message;
     }
 }
