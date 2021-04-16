@@ -11,13 +11,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaCons {
 
+    private static final Logger logger = LoggerFactory.getLogger(KafkaCons.class);
+    
     @KafkaListener(topics = "logs",groupId = "labproject")
-    public void consumeMessage(String message) throws IOException{
+    public void consumeLog(String message) throws IOException{
         logger.info(String.format("#### -> Consumed message -> %s", message));
     }
 
     @KafkaListener(topics = "data",groupId = "labproject")
-    public void consumeMessage(String message) throws IOException{
+    public void consumeData(String message) throws IOException{
 
         logger.info(String.format("#### -> Consumed message -> %s", message));
     }

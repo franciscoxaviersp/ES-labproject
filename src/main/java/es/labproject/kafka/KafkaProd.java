@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaProd {
     
+    private static final Logger logger = LoggerFactory.getLogger(KafkaProd.class);
     @Autowired
     private KafkaTemplate<String,String> kafkaTemplate;
 
