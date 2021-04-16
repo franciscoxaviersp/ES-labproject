@@ -32,11 +32,13 @@ public class KafkaCons {
     @KafkaListener(topics = "logs",groupId = "labproject")
     public void consumeLog(String message) throws IOException{
         logger.info(String.format("#### -> Consumed message -> %s", message));
+        logs.add(message);
     }
 
     @KafkaListener(topics = "data",groupId = "labproject")
     public void consumeData(String message) throws IOException{
 
         logger.info(String.format("#### -> Consumed message -> %s", message));
+        data.add(message);
     }
 }
