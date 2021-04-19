@@ -31,8 +31,9 @@ public class KafkaCons {
     
     @KafkaListener(topics = "logs",groupId = "labproject")
     public void consumeLog(String message) throws IOException{
-        logger.info(String.format("#### -> Consumed message -> %s", message));
+        //logger.info(String.format("#### -> Consumed message -> %s", message));
         logs.add(message);
+        System.out.println(message);
     }
 
     @KafkaListener(topics = "data",groupId = "labproject")
