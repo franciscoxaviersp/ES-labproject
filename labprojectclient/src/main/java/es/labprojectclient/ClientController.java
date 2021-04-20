@@ -15,8 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class ClientController {
+    @Autowired
+    private KafkaCons consumer;
+
     @RequestMapping("/test")
     public String test(){
         return "test";
+    }
+
+    @RequestMapping("/logs")
+    public String test(){
+        return consumer.getLogs();
+    }
+
+    @RequestMapping("/data")
+    public String test(){
+        return consumer.getData();
     }
 }
