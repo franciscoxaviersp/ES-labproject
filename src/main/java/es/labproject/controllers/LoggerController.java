@@ -25,7 +25,7 @@ public class LoggerController {
 
     @Autowired
     private KafkaCons consumer;
-
+/*
     @GetMapping("/logs")
     public List logging() {
         logger.info("Consuming logging messages");
@@ -39,5 +39,5 @@ public class LoggerController {
 
         return consumer.getData();
     }
-
+*/
 }
