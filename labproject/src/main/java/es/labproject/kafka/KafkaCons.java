@@ -1,4 +1,4 @@
-
+/*
 package es.labproject.kafka;
 
 import java.io.IOException;
@@ -9,13 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-/**
- *
- * @author Xico
- */
+
 @Service
 public class KafkaCons {
-/*
+
     private static final Logger logger = LoggerFactory.getLogger(KafkaCons.class);
     
     private List<String> logs = new LinkedList<>();
@@ -40,5 +37,6 @@ public class KafkaCons {
 
         logger.info(String.format("#### -> Consumed message -> %s", message));
         data.add(message);
-    }*/
+    }
 }
+*/

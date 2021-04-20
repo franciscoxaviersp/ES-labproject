@@ -14,9 +14,4 @@ public class LabprojectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LabprojectApplication.class, args);
 	}
-        
-        @Bean
-        public RestTemplate restTemplate(RestTemplateBuilder builder) {
-            return builder.build();
-        }
 }

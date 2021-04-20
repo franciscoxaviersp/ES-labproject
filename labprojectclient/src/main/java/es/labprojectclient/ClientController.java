@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Xico
  */
 @RestController
+@RequestMapping("/test")
 public class ClientController {
     @Autowired
     private KafkaCons consumer;

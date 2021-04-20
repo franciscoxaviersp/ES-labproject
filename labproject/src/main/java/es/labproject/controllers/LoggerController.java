@@ -1,8 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.labproject.controllers;
 
 import es.labproject.kafka.KafkaCons;
@@ -14,10 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- *
- * @author Xico
- */
 @RestController
 @RequestMapping("/logging")
 public class LoggerController {
@@ -25,7 +17,7 @@ public class LoggerController {
 
     @Autowired
     private KafkaCons consumer;
-/*
+
     @GetMapping("/logs")
     public List logging() {
         logger.info("Consuming logging messages");
@@ -39,5 +31,5 @@ public class LoggerController {
 
         return consumer.getData();
     }
-*/
-}
+
+}*/
