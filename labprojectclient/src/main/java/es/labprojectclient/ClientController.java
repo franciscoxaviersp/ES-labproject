@@ -6,6 +6,7 @@
 package es.labprojectclient;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,12 +25,12 @@ public class ClientController {
     }
 
     @RequestMapping("/logs")
-    public String test(){
+    public List getLogs(){
         return consumer.getLogs();
     }
 
     @RequestMapping("/data")
-    public String test(){
+    public List getData(){
         return consumer.getData();
     }
 }
