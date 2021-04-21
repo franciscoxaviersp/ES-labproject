@@ -12,6 +12,7 @@ import es.labproject.repository.CandleRepository;
 import es.labproject.repository.CoinRepository;
 import es.labproject.services.CandleService;
 import es.labproject.services.CoinService;
+import es.labproject.kafka.KafkaProd;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,6 +52,7 @@ public class CoinController {
     @Autowired private CandleService candleService;
     @Autowired private CoinRepository coinRep;
     @Autowired private CandleRepository candleRep;
+    @Autowired private final KafkaProd producer;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private List<Coin> pairCache; 
     
@@ -139,6 +141,7 @@ public class CoinController {
             
             if (temp.getSymbol().endsWith("EUR")){
                 finalList.add(temp);
+                if(temp.getPriceChangePercent()>=5) producer.send("data",temp.getSymbol()+","+String.valueOf(temp.getPriceChangePercent));
             }
         }
         Collections.sort(finalList);
