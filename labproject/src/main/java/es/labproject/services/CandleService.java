@@ -21,6 +21,7 @@ public class CandleService {
     }
     
     public List<Candle> getCandles(){
-        return candleRepository.findAll();
+        List<Candle> list=candleRepository.findAll();
+        return list.subList(list.size()-101,list.size()-1);
     }
 }
