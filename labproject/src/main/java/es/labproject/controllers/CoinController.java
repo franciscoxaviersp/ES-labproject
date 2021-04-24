@@ -151,7 +151,7 @@ public class CoinController {
         log.info("Retrieving candle info from Binance API");
         String res = "";
         try{
-            var url = new URL("https://api.binance.com/api/v3/klines?symbol=ETHBTC&interval=1m&limit=100");
+            var url = new URL("https://api.binance.com/api/v3/klines?symbol=BTCEUR&interval=1m&limit=100");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 

@@ -1,0 +1,12 @@
+/home/filipe/Desktop/4_ano/ES/git/ES-labproject/src/main/java/es/labproject/controllers/CoinController.java
+/home/filipe/Desktop/4_ano/ES/git/ES-labproject/src/main/java/es/labproject/LabprojectApplication.java
+/home/filipe/Desktop/4_ano/ES/git/ES-labproject/src/main/java/es/labproject/kafka/KafkaProd.java
+/home/filipe/Desktop/4_ano/ES/git/ES-labproject/src/main/java/es/labproject/repository/CoinRepository.java
+/home/filipe/Desktop/4_ano/ES/git/ES-labproject/src/main/java/es/labproject/kafka/KafkaCons.java
+/home/filipe/Desktop/4_ano/ES/git/ES-labproject/src/main/java/es/labproject/services/CandleService.java
+/home/filipe/Desktop/4_ano/ES/git/ES-labproject/src/main/java/es/labproject/services/CoinService.java
+/home/filipe/Desktop/4_ano/ES/git/ES-labproject/src/main/java/es/labproject/models/Candle.java
+/home/filipe/Desktop/4_ano/ES/git/ES-labproject/src/main/java/es/labproject/models/Coin.java
+/home/filipe/Desktop/4_ano/ES/git/ES-labproject/src/main/java/es/labproject/repository/CandleRepository.java
+/home/filipe/Desktop/4_ano/ES/git/ES-labproject/src/main/java/es/labproject/repository/CoinConfig.java
+/home/filipe/Desktop/4_ano/ES/git/ES-labproject/src/main/java/es/labproject/controllers/KafkaController.java

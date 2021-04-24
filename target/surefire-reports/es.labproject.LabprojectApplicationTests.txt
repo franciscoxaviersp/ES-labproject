@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: es.labproject.LabprojectApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.559 s - in es.labproject.LabprojectApplicationTests

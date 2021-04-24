@@ -27,8 +27,8 @@ import UserProfile from "views/UserProfile.js";
 var routes = [
   {
     path: "/dashboard",
-    name: "Dashboard",
-    icon: "tim-icons icon-chart-pie-36",
+    name: "Candles",
+    icon: "tim-icons icon-chart-bar-32",
     component: Dashboard,
     layout: "/admin",
   },

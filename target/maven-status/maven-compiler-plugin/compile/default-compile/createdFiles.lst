@@ -1,0 +1,12 @@
+es/labproject/kafka/KafkaProd.class
+es/labproject/LabprojectApplication.class
+es/labproject/repository/CoinConfig.class
+es/labproject/repository/CoinRepository.class
+es/labproject/services/CandleService.class
+es/labproject/repository/CandleRepository.class
+es/labproject/kafka/KafkaCons.class
+es/labproject/controllers/KafkaController.class
+es/labproject/controllers/CoinController.class
+es/labproject/models/Coin.class
+es/labproject/services/CoinService.class
+es/labproject/models/Candle.class
