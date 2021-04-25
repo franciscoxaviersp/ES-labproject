@@ -16,5 +16,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface CandleRepository extends JpaRepository<Candle,Long>{
     List<Candle> findByopenTime(Date openTime);
-    List<Candle> findTop100ByOrderByOpenTime();
+    List<Candle> findTop100ByOrderByOpenTimeDesc();
 }

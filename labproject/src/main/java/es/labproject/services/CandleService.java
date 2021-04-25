@@ -21,7 +21,8 @@ public class CandleService {
     }
     
     public List<Candle> getCandles(){
-        List<Candle> list=candleRepository.findAll();
-        return list.subList(list.size()-101,list.size()-1);
+        //List<Candle> list=candleRepository.findAll();
+        //return list.subList(list.size()-101,list.size()-1);
+        return candleRepository.findTop100ByOrderByOpenTimeDesc();
     }
 }
