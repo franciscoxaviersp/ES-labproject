@@ -22,7 +22,6 @@ import Chart from "react-apexcharts";
 import classNames from "classnames";
 // react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
-
 // reactstrap components
 import {
   Button,
@@ -43,7 +42,7 @@ import {
   Col,
   UncontrolledTooltip,
 } from "reactstrap";
-
+import { Alert } from 'reactstrap';
 // core components
 import {
   chartExample1,
@@ -51,13 +50,19 @@ import {
   chartExample3,
   chartExample4,
 } from "variables/charts.js";
+import Notify from 'react-notification-alert';
+
 
 class Dashboard extends React.Component {
 
   constructor(props) {
     super(props);
+    this.onDismiss = this.onDismiss.bind(this);
+
 
     this.state = {
+        visible: true,
+        msg:"ola",
       series: [{
               data: [{
                 x: Date.parse("0"),
@@ -85,17 +90,29 @@ class Dashboard extends React.Component {
               }
             },
     }
-    console.log(this.state)
+
+    this.options = {
+        place: "tr",
+        message: this.state.msg,
+        type: "success",
+        icon: "tim-icons icon-bell-55",
+        autoDismiss: 3
+     };
   }
+
+    myFunc(){
+        this.refs.notify.notificationAlert(this.options);
+    }
+
   getData = async (id) => {
+
       try {
-           const response = await fetch(
+           let response = await fetch(
               `/api/candles`
           );
 
-          const result = await response.json();
+          let result = await response.json();
           let a = []
-          console.log(result.length)
           for (let i=0;i<result.length;i++){
 
             let b = {
@@ -115,34 +132,61 @@ class Dashboard extends React.Component {
                   }
               )
           );
-
       }
     catch(e){
-         this.setState(
-             prevState => (
-                 {
-                     error: "No accidents do Show"
-                 }
-             )
-         );
+          console.log(e)
+
      }
      console.log(this.state)
   }
-
+  getKafka= async () => {
+      let response = await fetch(
+          `/api/data`
+      );
+       let result = await response.text();
+      if (this.options.message !== result){
+          this.options.message = result;
+      console.log(result)
+      this.myFunc()
+      this.setState(
+          prevState => (
+              {}
+          )
+      );
+      }
+  }
    componentDidMount() {
     this.getData(this.state.curent_page);
-    //this.timer = setInterval(() => this.getData(this.state.curent_page), 3000)
+    this.timer = setInterval(() => this.getData(this.state.curent_page), 30000)
+    this.timer = setInterval(() => this.getKafka(), 1000)
   }
 
   componentWillUnmount(){
     clearInterval(this.timer)
     this.timer = null
   }
-
+  onDismiss(){
+    this.setState({visible: !this.state.visible})
+}
   render(){
   return (
     <>
       <div className="content">
+          <Notify ref="notify"/>
+          {/*<div className="react-notification-alert-container">*/}
+          {/*    <Alert*/}
+          {/*      color="primary"*/}
+
+          {/*      isOpen={this.state.visible}*/}
+          {/*      toggle={this.onDismiss}*/}
+          {/*      >*/}
+          {/*      <span>*/}
+          {/*          <b> Primary - </b> This is a regular notification made with*/}
+          {/*          <code className="highlighter-rouge">color="primary"</code>*/}
+          {/*      </span>*/}
+          {/*      </Alert>*/}
+          {/*  </div>*/}
+
         <Row>
           <Col xs="12">
             <Card className="card-chart">
@@ -163,7 +207,7 @@ class Dashboard extends React.Component {
                     options={this.state.options}
                     series={this.state.series}
                     type="candlestick"
-                    // width="500"
+                    height="500"
                   />
                 </div>
               </CardBody>

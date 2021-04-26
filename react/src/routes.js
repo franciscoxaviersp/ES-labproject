@@ -23,6 +23,7 @@ import Notifications from "views/Notifications.js";
 import TableList from "views/TableList.js";
 import Typography from "views/Typography.js";
 import UserProfile from "views/UserProfile.js";
+import Logs from "views/Logs.js";
 
 var routes = [
   {
@@ -65,9 +66,15 @@ var routes = [
   {
     path: "/tables",
     name: "Table List",
-    rtlName: "قائمة الجدول",
-    icon: "tim-icons icon-puzzle-10",
+    icon: "tim-icons icon-coins",
     component: TableList,
+    layout: "/admin",
+  },
+  {
+    path: "/Logs",
+    name: "Logs",
+    icon: "tim-icons icon-book-bookmark",
+    component: Logs,
     layout: "/admin",
   },
   // {
@@ -78,13 +85,6 @@ var routes = [
   //   component: Typography,
   //   layout: "/admin",
   // },
-  // {
-  //   path: "/rtl-support",
-  //   name: "RTL Support",
-  //   rtlName: "ار تي ال",
-  //   icon: "tim-icons icon-world",
-  //   component: Rtl,
-  //   layout: "/rtl",
-  // },
+
 ];
 export default routes;

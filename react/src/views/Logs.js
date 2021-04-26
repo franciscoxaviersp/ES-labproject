@@ -28,7 +28,8 @@ import {
     Col, Button, DropdownToggle, DropdownMenu, DropdownItem, ButtonDropdown,
 } from "reactstrap";
 
-class Tables extends React.Component {
+
+class Logs extends React.Component {
   constructor(props) {
     super(props);
 
@@ -40,7 +41,7 @@ class Tables extends React.Component {
       table_data : [],
       table_buttons:[],
       curent_page:1,
-      num_to_show:15,
+      num_to_show:10,
       dropDown1Value: "Name",
       dropdownIndex:"between",
       dropdownIndex2:"Today",
@@ -48,7 +49,8 @@ class Tables extends React.Component {
       dropDown1Open: false,
 
     }
-  }
+}
+
   sortData(result){
       console.log(this.state.table_data)
           console.log(this.state.dropDown1Value)
@@ -62,28 +64,29 @@ class Tables extends React.Component {
                   return 0;
                 });
       if (this.state.dropDown1Value == "Price"){
-              result.sort(function(a, b) {return b.lastPrice - a.lastPrice });
+              result.sort(function(a, b) {return a.lastPrice - b.lastPrice });
       }
       if (this.state.dropDown1Value == "Variation"){
-              result.sort(function(a, b) {return b.priceChangePercent - a.priceChangePercent });
+              result.sort(function(a, b) {return a.priceChangePercent - b.priceChangePercent });
       }
+
   }
+
+
+
 
   getData = async (id) => {
       try {
-           const response = await fetch(
-              `/api/coins`
+           let response = await fetch(
+              `/test/logs`
           );
-
-          const result = await response.json();
-          console.log(result)
-          this.sortData(result)
-
+           let result = await response.json();
+          console.log(result.length)
 
           this.setState(
               prevState => (
                   {
-                      table_data: result
+                      table_data: result.slice(result.length-100,result.length).reverse()
                   }
               )
           );
@@ -91,13 +94,7 @@ class Tables extends React.Component {
 
       }
     catch(e){
-         this.setState(
-             prevState => (
-                 {
-                     error: "No accidents do Show"
-                 }
-             )
-         );
+         console.log(e)
      }
   }
 
@@ -116,12 +113,11 @@ class Tables extends React.Component {
     return(
       <tr>
         {/*<td className="text-center">/!*<img src={"https://cryptoicons.org/api/icon/"+ value["symbol"].split("EUR")[0].toLowerCase()+"/200"} alt="icon"/>*!/ {value["symbol"]}</td>*/}
-        <td className="text-center">{value["symbol"].split("EUR")[0]}</td>
-        <td className="text-center">{value["lastPrice"]}€</td>
-          <td className="text-center">{value["priceChange"]}€</td>
-        <td className="text-center">{value["priceChangePercent"]}%</td>
+          <td ><b>{value.split(" ")[0]} {value.split(" ")[1].split(",")[0]}</b> {value.split(",")[1].split(/ (.+)/)[1]}</td>
+        {/*<td className="text-center">{value["lastPrice"]}€</td>*/}
+        {/*  <td className="text-center">{value["priceChange"]}€</td>*/}
+        {/*<td className="text-center">{value["priceChangePercent"]}%</td>*/}
       </tr>
-
     )
   }
 
@@ -160,7 +156,7 @@ class Tables extends React.Component {
 
     componentDidMount() {
     this.getData(this.state.curent_page);
-    this.timer = setInterval(() => this.getData(this.state.curent_page), 3000)
+    this.timer = setInterval(() => this.getData(this.state.curent_page), 2000)
   }
 
   componentWillUnmount(){
@@ -185,24 +181,24 @@ class Tables extends React.Component {
                 <Card>
                   <CardHeader>
                     <Row >
-                      <Col><CardTitle tag="h3">Coins Table</CardTitle></Col>
+                      <Col><CardTitle tag="h3">Logs</CardTitle></Col>
                       <Col>
                       {this.renderButtons()}
                       </Col>
                     <Col>
-                       <div className="row justify-content-end" style={{ paddingRight: 20}}>
-                           <h4 className="mr-2 mt-2 text-white text-center">Sort by: </h4>
-                      <ButtonDropdown isOpen={this.state.dropDown1Open} toggle={this.toggleDrop1}>
-                      <DropdownToggle caret>
-                        {this.state.dropDown1Value}
-                      </DropdownToggle>
-                      <DropdownMenu right>
-                        <DropdownItem onClick={(e)=>this.changeValueDrop1(e,1)}>Name</DropdownItem>
-                        <DropdownItem onClick={(e)=>this.changeValueDrop1(e,2)}>Price</DropdownItem>
-                        <DropdownItem onClick={(e)=>this.changeValueDrop1(e,3)}>Variation</DropdownItem>
-                      </DropdownMenu>
-                    </ButtonDropdown>
-                           </div>
+                    {/*   <div className="row justify-content-end" style={{ paddingRight: 20}}>*/}
+                    {/*       <h4 className="mr-2 mt-2 text-white text-center">Sort by: </h4>*/}
+                    {/*  <ButtonDropdown isOpen={this.state.dropDown1Open} toggle={this.toggleDrop1}>*/}
+                    {/*  <DropdownToggle caret>*/}
+                    {/*    {this.state.dropDown1Value}*/}
+                    {/*  </DropdownToggle>*/}
+                    {/*  <DropdownMenu right>*/}
+                    {/*    <DropdownItem onClick={(e)=>this.changeValueDrop1(e,1)}>Name</DropdownItem>*/}
+                    {/*    <DropdownItem onClick={(e)=>this.changeValueDrop1(e,2)}>Price</DropdownItem>*/}
+                    {/*    <DropdownItem onClick={(e)=>this.changeValueDrop1(e,3)}>Variation</DropdownItem>*/}
+                    {/*  </DropdownMenu>*/}
+                    {/*</ButtonDropdown>*/}
+                    {/*       </div>*/}
                   </Col>
                  </Row>
                   </CardHeader>
@@ -210,10 +206,7 @@ class Tables extends React.Component {
                     <Table className="tablesorter" >
                       <thead className="text-primary">
                       <tr>
-                        <th className="text-center">Name</th>
-                        <th className="text-center">price</th>
-                        <th className="text-center">Price Change(24h)</th>
-                        <th className="text-center">Variation(24h)</th>
+                        <th >Description</th>
                       </tr>
                       </thead>
                         <tbody>
@@ -230,4 +223,4 @@ class Tables extends React.Component {
     );
   }
   }
-export default Tables;
+export default Logs;
