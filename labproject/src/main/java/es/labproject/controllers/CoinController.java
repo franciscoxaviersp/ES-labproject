@@ -149,7 +149,7 @@ public class CoinController {
             
             if (temp.getSymbol().endsWith("EUR")){
                 finalList.add(temp);
-                if(temp.getPriceChangePercent()>=0.5) producer.send("data",temp.getSymbol()+","+String.valueOf(temp.getPriceChangePercent()));
+                if(temp.getPriceChangePercent()>=15) producer.send("data",temp.getSymbol()+","+String.valueOf(temp.getPriceChangePercent()));
             }
         }
         Collections.sort(finalList);

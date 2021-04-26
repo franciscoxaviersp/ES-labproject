@@ -63,6 +63,7 @@ class Dashboard extends React.Component {
     this.state = {
         visible: true,
         msg:"ola",
+        changes:[],
       series: [{
               data: [{
                 x: Date.parse("0"),
@@ -93,10 +94,10 @@ class Dashboard extends React.Component {
 
     this.options = {
         place: "tr",
-        message: this.state.msg,
+        message: <div className="text-right">{this.state.msg}</div>,
         type: "success",
         icon: "tim-icons icon-bell-55",
-        autoDismiss: 3
+        autoDismiss: 10
      };
   }
 
@@ -141,19 +142,30 @@ class Dashboard extends React.Component {
   }
   getKafka= async () => {
       let response = await fetch(
-          `/api/data`
+          `/test/data`
       );
-       let result = await response.text();
-      if (this.options.message !== result){
-          this.options.message = result;
-      console.log(result)
-      this.myFunc()
-      this.setState(
-          prevState => (
-              {}
-          )
-      );
-      }
+      let result = await response.json();
+      let a = result.slice(this.state.changes.length, result.length)
+      console.log(result);
+
+      this.state.changes = result;
+      if (a.length != result.length) {
+
+      for (let i = 0; i < a.length; i++) {
+              this.options.message =<div className="text-right">NEW {a[i].split("EUR")[0]} price {a[i].split(",")[1]}</div>;
+              this.myFunc()
+          }
+        }
+      // if (this.options.message !== result[result.length-1]){
+      //     this.options.message = result[result.length-1];
+      // console.log(result)
+      // this.myFunc()
+      // this.setState(
+      //     prevState => (
+      //         {}
+      //     )
+       //);
+     // }
   }
    componentDidMount() {
     this.getData(this.state.curent_page);
@@ -172,21 +184,7 @@ class Dashboard extends React.Component {
   return (
     <>
       <div className="content">
-          <Notify ref="notify"/>
-          {/*<div className="react-notification-alert-container">*/}
-          {/*    <Alert*/}
-          {/*      color="primary"*/}
-
-          {/*      isOpen={this.state.visible}*/}
-          {/*      toggle={this.onDismiss}*/}
-          {/*      >*/}
-          {/*      <span>*/}
-          {/*          <b> Primary - </b> This is a regular notification made with*/}
-          {/*          <code className="highlighter-rouge">color="primary"</code>*/}
-          {/*      </span>*/}
-          {/*      </Alert>*/}
-          {/*  </div>*/}
-
+          <Notify ref="notify" />
         <Row>
           <Col xs="12">
             <Card className="card-chart">

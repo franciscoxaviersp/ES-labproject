@@ -29,21 +29,21 @@ public class KafkaListner {
     private String msg = "";
     private  Queue<String> logs = new LinkedList<>();
 
-    @KafkaListener(topics = "data", groupId = "labproject")
-    public void consumer1(ConsumerRecord<String, String> payload){
-        logger.info("Topic: {}", "data");
-        logger.info("Order: {}", payload.value());
-        msg = payload.value();
-    }
+    //@KafkaListener(topics = "data", groupId = "labproject")
+   // public void consumer1(ConsumerRecord<String, String> payload){
+   //     logger.info("Topic: {}", "data");
+    //    logger.info("Order: {}", payload.value());
+    //    msg = payload.value();
+    //}
     
-    @KafkaListener(topics = "logs", groupId = "labproject")
-    public void consumer2(ConsumerRecord<String, String> payload){
-        
-        logs.add(payload.value());
-        // Display contents of the queue.
-        System.out.println("Elements of queue "
-                           + logs);
-    }
+   // @KafkaListener(topics = "logs", groupId = "labproject")
+    //public void consumer2(ConsumerRecord<String, String> payload){
+    //    
+    //    logs.add(payload.value());
+    //    // Display contents of the queue.
+     //   System.out.println("Elements of queue "
+   //                        + logs);
+    //}
 
     public String getMessage(){
         return msg;
