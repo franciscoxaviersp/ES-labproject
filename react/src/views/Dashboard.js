@@ -79,15 +79,45 @@ class Dashboard extends React.Component {
               },
               title: {
                 text: 'CandleStick Chart',
-                align: 'left'
+                align: 'left',
+                  style: {
+                      fontSize:  '14px',
+                      fontWeight:  'bold',
+                      fontFamily:  undefined,
+                      color:  '#FFF'
+                    },
+
               },
               xaxis: {
-                type: 'datetime'
+                type: 'datetime',
+                labels: {
+                  style: {
+                      colors: '#FFF',
+                      fontSize: '12px',
+                      fontFamily: 'Helvetica, Arial, sans-serif',
+                      fontWeight: 400,
+                      cssClass: 'apexcharts-xaxis-label',
+                  },
+                 },
               },
               yaxis: {
                 tooltip: {
                   enabled: true
-                }
+                },
+                labels: {
+                  show: true,
+                  align: 'right',
+                  minWidth: 0,
+                  maxWidth: 160,
+                  style: {
+                      colors: '#FFF',
+                      fontSize: '12px',
+                      fontFamily: 'Helvetica, Arial, sans-serif',
+                      fontWeight: 400,
+                      cssClass: 'apexcharts-yaxis-label',
+                  },
+                 },
+                
               }
             },
     }
