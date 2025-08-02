@@ -1,5 +1,7 @@
 # CryptoBell
 
+A university project for Software Engineering course at Universidade de Aveiro.
+
 # Install
 ### dependencies
 * docker
